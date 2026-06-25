@@ -1,0 +1,14 @@
+
+{
+  "name": "motorlux-dealership",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MotorLux car dealership app with a Node backend API.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>MotorLux — Premium Car Dealership</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Syne:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;
+  --surface:#111111;
+  --surface2:#181818;
+  --surface3:#202020;
+  --gold:#c8a96e;
+  --gold-light:#e2c98a;
+  --gold-dim:rgba(200,169,110,0.15);
+  --gold-border:rgba(200,169,110,0.25);
+  --text:#f2ede4;
+  --text-muted:#888880;
+  --text-dim:#555550;
+  --red:#e05555;
+  --green:#4caf7d;
+  --r:10px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold-border);border-radius:3px}
+
+/* ── NAV ── */
+#main-nav{position:fixed;top:0;left:0;right:0;z-index:500;background:rgba(8,8,8,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--gold-border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--gold);letter-spacing:3px;text-transform:uppercase;cursor:pointer}
+.nav-brand span{color:var(--text);font-weight:300}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-btn{background:none;border:none;color:var(--text-muted);font-family:'Syne',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;cursor:pointer;border-radius:6px;transition:all .2s}
+.nav-btn:hover{color:var(--text);background:var(--surface2)}
+.nav-btn.active{color:var(--gold)}
+.nav-admin-btn{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);font-family:'Syne',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;cursor:pointer;border-radius:6px;transition:all .2s}
+.nav-admin-btn:hover{background:rgba(200,169,110,0.25)}
+
+/* ── PAGES ── */
+.page{display:none;padding-top:64px;min-height:100vh}
+.page.active{display:block}
+
+/* ── HERO ── */
+#hero{position:relative;height:calc(100vh - 64px);display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:
+  radial-gradient(ellipse 80% 60% at 50% 80%, rgba(200,169,110,0.06) 0%, transparent 70%),
+  radial-gradient(ellipse 40% 40% at 20% 20%, rgba(200,169,110,0.04) 0%, transparent 60%),
+  linear-gradient(180deg, #080808 0%, #0d0c0a 100%)}
+.hero-lines{position:absolute;inset:0;opacity:0.04;background-image:repeating-linear-gradient(0deg,transparent,transparent 79px,var(--gold) 79px,var(--gold) 80px),repeating-linear-gradient(90deg,transparent,transparent 79px,var(--gold) 79px,var(--gold) 80px)}
+.hero-content{position:relative;z-index:2;max-width:800px;padding:0 24px}
+.hero-eyebrow{font-size:11px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp .8s .2s forwards}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,8vw,96px);font-weight:300;line-height:1;color:var(--text);margin-bottom:24px;opacity:0;animation:fadeUp .8s .4s forwards}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:14px;color:var(--text-muted);letter-spacing:1px;line-height:1.8;margin-bottom:40px;opacity:0;animation:fadeUp .8s .6s forwards}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp .8s .8s forwards}
+.btn-gold{background:var(--gold);border:none;color:#080808;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:14px 32px;border-radius:6px;cursor:pointer;transition:all .2s}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-1px)}
+.btn-outline{background:none;border:1px solid var(--gold-border);color:var(--text);font-family:'Syne',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:14px 32px;border-radius:6px;cursor:pointer;transition:all .2s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.hero-stats{position:absolute;bottom:40px;left:0;right:0;display:flex;justify-content:center;gap:60px;opacity:0;animation:fadeUp .8s 1s forwards}
+.hero-stat{text-align:center}
+.hero-stat .n{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:500;color:var(--gold)}
+.hero-stat .l{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-top:4px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION ── */
+.section{max-width:1200px;margin:0 auto;padding:80px 32px}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px}
+.section-eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,48px);font-weight:400;color:var(--text);line-height:1.1}
+
+/* ── FILTERS ── */
+.filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px}
+.filter-chip{background:var(--surface2);border:1px solid var(--gold-border);color:var(--text-muted);font-family:'Syne',sans-serif;font-size:11px;letter-spacing:1px;padding:8px 16px;border-radius:20px;cursor:pointer;transition:all .2s}
+.filter-chip:hover,.filter-chip.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
+.search-bar{display:flex;gap:10px;margin-bottom:24px}
+.search-input{flex:1;background:var(--surface2);border:1px solid var(--gold-border);border-radius:8px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;padding:12px 18px;outline:none;transition:border-color .2s}
+.search-input:focus{border-color:var(--gold)}
+.search-input::placeholder{color:var(--text-dim)}
+
+/* ── CAR GRID ── */
+.cars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+.car-card{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:var(--r);overflow:hidden;transition:all .3s;cursor:pointer;position:relative}
+.car-card:hover{border-color:var(--gold-border);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+.car-badge{position:absolute;top:12px;left:12px;z-index:2;background:var(--gold);color:#080808;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:4px}
+.car-badge.used{background:var(--surface3);color:var(--text-muted);border:1px solid var(--gold-border)}
+.car-badge.sold{background:var(--red);color:#fff}
+.car-img-wrap{position:relative;overflow:hidden;height:200px;background:var(--surface2)}
+.car-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.car-card:hover .car-img-wrap img{transform:scale(1.05)}
+.car-body{padding:20px}
+.car-make{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.car-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--text);margin-bottom:6px}
+.car-specs{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.car-spec{font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:4px}
+.car-price-row{display:flex;align-items:center;justify-content:space-between}
+.car-price{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:var(--gold)}
+.car-cta{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);font-family:'Syne',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border-radius:6px;cursor:pointer;transition:all .2s}
+.car-cta:hover{background:var(--gold);color:#080808}
+.fav-btn{position:absolute;top:12px;right:12px;z-index:3;width:34px;height:34px;border-radius:50%;background:rgba(8,8,8,0.72);border:1px solid var(--gold-border);color:var(--text);font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.fav-btn:hover,.fav-btn.saved{background:var(--gold);border-color:var(--gold);color:#080808}
+.modal-fav-btn{position:static;flex:0 0 auto}
+.no-results{text-align:center;padding:80px 20px;color:var(--text-muted)}
+.no-results h3{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--text);margin-bottom:8px}
+
+/* ── AI SEARCH PANEL ── */
+.ai-panel{background:linear-gradient(135deg,var(--surface) 0%,rgba(200,169,110,0.04) 100%);border:1px solid var(--gold-border);border-radius:var(--r);padding:32px;margin-bottom:40px}
+.ai-panel-title{font-family:'Cormorant Garamond',serif;font-size:28px;margin-bottom:4px}
+.ai-panel-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px;line-height:1.6}
+.ai-result{background:var(--surface2);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:16px 20px;font-size:13px;line-height:1.8;color:var(--text);display:none;margin-top:16px;white-space:pre-wrap}
+.ai-result.show{display:block}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(8,8,8,0.3);border-top-color:#080808;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── FINANCING CALCULATOR ── */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media(max-width:680px){.calc-grid{grid-template-columns:1fr}}
+.calc-panel{background:var(--surface);border:1px solid var(--gold-border);border-radius:var(--r);padding:28px}
+.calc-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;display:block}
+.calc-input{width:100%;background:var(--surface2);border:1px solid rgba(255,255,255,0.08);border-radius:6px;color:var(--text);font-family:'Syne',sans-serif;font-size:14px;padding:10px 14px;outline:none;margin-bottom:18px;transition:border-color .2s}
+.calc-input:focus{border-color:var(--gold)}
+.calc-result-box{background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:8px;padding:24px;text-align:center}
+.calc-monthly{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:500;color:var(--gold);line-height:1}
+.calc-monthly-label{font-size:11px;letter-spacing:2px;color:var(--text-muted);margin-top:6px;text-transform:uppercase}
+.calc-breakdown{margin-top:20px;display:flex;flex-direction:column;gap:8px}
+.calc-row{display:flex;justify-content:space-between;font-size:13px;color:var(--text-muted);border-bottom:1px solid rgba(255,255,255,0.04);padding-bottom:8px}
+.calc-row span:last-child{color:var(--text)}
+input[type=range]{width:100%;accent-color:var(--gold);cursor:pointer;margin-bottom:18px}
+
+/* ── CONTACT ── */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+@media(max-width:680px){.contact-grid{grid-template-columns:1fr}}
+.contact-info{display:flex;flex-direction:column;gap:20px}
+.contact-item{display:flex;gap:16px;align-items:flex-start}
+.contact-icon{width:40px;height:40px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.contact-item-title{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.contact-item-val{font-size:14px;color:var(--text-muted);line-height:1.6}
+.form-group{margin-bottom:16px}
+.form-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;display:block}
+.form-input{width:100%;background:var(--surface2);border:1px solid rgba(255,255,255,0.08);border-radius:6px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;padding:12px 14px;outline:none;transition:border-color .2s;resize:vertical}
+.form-input:focus{border-color:var(--gold)}
+.form-input::placeholder{color:var(--text-dim)}
+.whatsapp-btn{display:flex;align-items:center;gap:10px;background:#25d366;border:none;color:#fff;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:14px 24px;border-radius:8px;cursor:pointer;margin-bottom:16px;width:100%;justify-content:center;transition:all .2s}
+.whatsapp-btn:hover{background:#1ebe59;transform:translateY(-1px)}
+.form-success{background:rgba(76,175,125,0.1);border:1px solid rgba(76,175,125,0.3);border-radius:8px;padding:16px;text-align:center;color:var(--green);font-size:13px;display:none}
+.form-success.show{display:block}
+
+/* ── CAR MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.show{opacity:1;pointer-events:all}
+.modal-box{background:var(--surface);border:1px solid var(--gold-border);border-radius:14px;max-width:720px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
+.modal-img{width:100%;height:300px;object-fit:cover;border-radius:14px 14px 0 0}
+.modal-body{padding:28px}
+.modal-close{position:absolute;top:16px;right:16px;background:rgba(0,0,0,0.6);border:none;color:#fff;font-size:22px;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.modal-make{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:500;margin-bottom:12px}
+.modal-specs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.modal-spec{background:var(--surface2);border-radius:8px;padding:12px;text-align:center}
+.modal-spec .sv{font-size:16px;font-weight:500;color:var(--text);display:block}
+.modal-spec .sk{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-top:2px}
+.modal-desc{font-size:13px;color:var(--text-muted);line-height:1.8;margin-bottom:24px}
+.modal-price-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.modal-price{font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--gold)}
+
+/* ── ADMIN ── */
+#page-admin{background:var(--bg)}
+.admin-login{max-width:400px;margin:0 auto;padding:120px 24px}
+.admin-login-box{background:var(--surface);border:1px solid var(--gold-border);border-radius:var(--r);padding:40px}
+.admin-title{font-family:'Cormorant Garamond',serif;font-size:32px;text-align:center;margin-bottom:8px}
+.admin-sub{font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:32px;letter-spacing:1px}
+.admin-inner{display:none}
+.admin-inner.show{display:block}
+.admin-header{background:var(--surface);border-bottom:1px solid var(--gold-border);padding:20px 32px;display:flex;align-items:center;justify-content:space-between}
+.admin-header h2{font-family:'Cormorant Garamond',serif;font-size:24px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:32px;max-width:1200px;margin:0 auto}
+@media(max-width:768px){.stats-row{grid-template-columns:1fr 1fr}}
+.stat-card{background:var(--surface);border:1px solid var(--gold-border);border-radius:var(--r);padding:20px}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--gold)}
+.stat-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-top:4px}
+.admin-section{max-width:1200px;margin:0 auto;padding:0 32px 40px}
+.admin-section h3{font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.add-car-form{background:var(--surface);border:1px solid var(--gold-border);border-radius:var(--r);padding:28px;margin-bottom:32px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.form-row{grid-template-columns:1fr}}
+.admin-cars-list{display:flex;flex-direction:column;gap:12px}
+.admin-car-row{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:16px 20px;display:flex;align-items:center;gap:16px;transition:border-color .2s}
+.admin-car-row:hover{border-color:var(--gold-border)}
+.admin-car-img{width:70px;height:50px;object-fit:cover;border-radius:6px;background:var(--surface2);flex-shrink:0}
+.admin-car-info{flex:1}
+.admin-car-name{font-size:14px;font-weight:500;margin-bottom:2px}
+.admin-car-meta{font-size:12px;color:var(--text-muted)}
+.admin-car-price{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);margin-right:16px;white-space:nowrap}
+.btn-danger{background:rgba(224,85,85,0.1);border:1px solid rgba(224,85,85,0.3);color:var(--red);font-family:'Syne',sans-serif;font-size:11px;letter-spacing:1px;padding:7px 14px;border-radius:6px;cursor:pointer;transition:all .2s}
+.btn-danger:hover{background:var(--red);color:#fff}
+.btn-edit{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);font-family:'Syne',sans-serif;font-size:11px;letter-spacing:1px;padding:7px 14px;border-radius:6px;cursor:pointer;transition:all .2s;margin-right:8px}
+.btn-edit:hover{background:var(--gold);color:#080808}
+.inquiries-list{display:flex;flex-direction:column;gap:12px}
+.inquiry-card{background:var(--surface);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:18px 22px}
+.inquiry-name{font-size:14px;font-weight:500;margin-bottom:2px}
+.inquiry-meta{font-size:12px;color:var(--text-muted);margin-bottom:8px}
+.inquiry-msg{font-size:13px;color:var(--text-muted);line-height:1.6;font-style:italic}
+.badge-new{background:rgba(76,175,125,0.15);border:1px solid rgba(76,175,125,0.3);color:var(--green);font-size:10px;letter-spacing:2px;padding:2px 8px;border-radius:4px;text-transform:uppercase;margin-left:8px}
+.toggle-group{display:flex;gap:8px;margin-bottom:16px}
+.toggle-btn{background:var(--surface2);border:1px solid rgba(255,255,255,0.08);color:var(--text-muted);font-family:'Syne',sans-serif;font-size:11px;padding:8px 16px;border-radius:6px;cursor:pointer;transition:all .2s}
+.toggle-btn.on{background:rgba(76,175,125,0.1);border-color:rgba(76,175,125,0.3);color:var(--green)}
+
+/* ── CHATBOT ── */
+#chat-fab{position:fixed;bottom:28px;right:28px;z-index:700;width:56px;height:56px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;box-shadow:0 4px 24px rgba(200,169,110,0.4);display:flex;align-items:center;justify-content:center;font-size:24px;transition:all .2s}
+#chat-fab:hover{background:var(--gold-light);transform:scale(1.08)}
+#chat-panel{position:fixed;bottom:96px;right:28px;z-index:700;width:340px;background:var(--surface);border:1px solid var(--gold-border);border-radius:14px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.7);display:none;flex-direction:column}
+#chat-panel.show{display:flex}
+.chat-header{background:var(--surface2);border-bottom:1px solid var(--gold-border);padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.chat-header-title{font-family:'Cormorant Garamond',serif;font-size:16px}
+.chat-header-status{font-size:11px;color:var(--gold);display:flex;align-items:center;gap:4px}
+.chat-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.chat-close{background:none;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;line-height:1}
+.chat-msgs{height:280px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.cmsg{max-width:88%;padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.6}
+.cmsg.bot{background:var(--surface2);border-left:2px solid var(--gold);color:var(--text);align-self:flex-start}
+.cmsg.user{background:rgba(200,169,110,0.12);border:1px solid var(--gold-border);color:var(--text);align-self:flex-end}
+.chat-typing-indicator{font-size:12px;color:var(--text-dim);font-style:italic;padding:0 16px;display:none}
+.chat-typing-indicator.show{display:block}
+.chat-footer{padding:12px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:8px}
+.chat-input-field{flex:1;background:var(--surface2);border:1px solid rgba(255,255,255,0.08);border-radius:6px;color:var(--text);font-family:'Syne',sans-serif;font-size:13px;padding:9px 12px;outline:none;transition:border-color .2s}
+.chat-input-field:focus{border-color:var(--gold)}
+.chat-send{background:var(--gold);border:none;color:#080808;font-family:'Syne',sans-serif;font-size:12px;font-weight:600;padding:9px 14px;border-radius:6px;cursor:pointer;transition:background .2s}
+.chat-send:hover{background:var(--gold-light)}
+
+/* ── FOOTER ── */
+footer{background:var(--surface);border-top:1px solid var(--gold-border);padding:60px 32px 32px;margin-top:auto}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:40px}
+@media(max-width:640px){.footer-top{grid-template-columns:1fr}}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);letter-spacing:2px;margin-bottom:12px}
+.footer-desc{font-size:13px;color:var(--text-muted);line-height:1.8}
+.footer-col-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-links li{font-size:13px;color:var(--text-muted);cursor:pointer;transition:color .2s}
+.footer-links li:hover{color:var(--text)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:12px;color:var(--text-dim)}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--surface);border:1px solid var(--gold-border);border-radius:8px;padding:12px 24px;font-size:13px;color:var(--text);z-index:900;opacity:0;pointer-events:none;transition:all .3s;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── MOBILE NAV ── */
+.nav-hamburger{display:none;background:none;border:none;color:var(--text);font-size:24px;cursor:pointer;padding:8px;line-height:1}
+.nav-mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(8,8,8,0.98);backdrop-filter:blur(12px);border-bottom:1px solid var(--gold-border);padding:16px;flex-direction:column;gap:4px;z-index:499}
+.nav-mobile-menu.show{display:flex}
+.nav-mobile-menu .nav-btn,.nav-mobile-menu .nav-admin-btn,.nav-mobile-menu .nav-auth-btn{width:100%;text-align:left;padding:12px 16px}
+.nav-auth-btn{background:none;border:1px solid var(--gold-border);color:var(--gold);font-family:'Syne',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;cursor:pointer;border-radius:6px;transition:all .2s}
+.nav-auth-btn:hover{background:var(--gold-dim)}
+.nav-user-chip{font-size:11px;color:var(--text-muted);padding:6px 12px;letter-spacing:1px}
+
+/* ── AUTH / PROFILE ── */
+.auth-wrap{max-width:480px;margin:0 auto;padding:80px 24px}
+.auth-box{background:var(--surface);border:1px solid var(--gold-border);border-radius:var(--r);padding:40px}
+.auth-tabs{display:flex;gap:0;margin-bottom:28px;border:1px solid var(--gold-border);border-radius:8px;overflow:hidden}
+.auth-tab{flex:1;background:var(--surface2);border:none;color:var(--text-muted);font-family:'Syne',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:12px;cursor:pointer;transition:all .2s}
+.auth-tab.active{background:var(--gold-dim);color:var(--gold)}
+.profile-header{text-align:center;margin-bottom:28px}
+.profile-avatar{width:72px;height:72px;border-radius:50%;background:var(--gold-dim);border:2px solid var(--gold-border);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);margin:0 auto 12px}
+.profile-name{font-family:'Cormorant Garamond',serif;font-size:28px;margin-bottom:4px}
+.profile-email{font-size:13px;color:var(--text-muted)}
+.danger-zone{margin-top:32px;padding-top:24px;border-top:1px solid rgba(224,85,85,0.2)}
+.danger-zone h4{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.danger-zone p{font-size:12px;color:var(--text-muted);margin-bottom:16px;line-height:1.6}
+
+/* ── CLIENT DASHBOARD ── */
+.dash-welcome{background:linear-gradient(135deg,var(--surface) 0%,rgba(200,169,110,0.06) 100%);border:1px solid var(--gold-border);border-radius:var(--r);padding:32px;margin-bottom:32px}
+.dash-welcome h2{font-family:'Cormorant Garamond',serif;font-size:32px;margin-bottom:8px}
+.dash-welcome p{font-size:14px;color:var(--text-muted);line-height:1.6}
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+@media(max-width:768px){.dash-grid{grid-template-columns:1fr}}
+.dash-card{background:var(--surface);border:1px solid var(--gold-border);border-radius:var(--r);padding:24px;text-align:center}
+.dash-card-n{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--gold)}
+.dash-card-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-top:4px}
+.dash-section-title{font-family:'Cormorant Garamond',serif;font-size:24px;margin:32px 0 16px}
+.saved-empty{color:var(--text-muted);font-size:13px;padding:20px 0}
+.guest-prompt{text-align:center;padding:80px 24px;color:var(--text-muted)}
+.guest-prompt h3{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--text);margin-bottom:12px}
+
+.car-badge.reserved{background:var(--gold);color:#080808}
+body.admin-page footer,body.admin-page #chat-fab{display:none}
+.footer-links button{background:none;border:none;color:inherit;font:inherit;font-size:13px;color:var(--text-muted);cursor:pointer;text-align:left;padding:0;transition:color .2s}
+.footer-links button:hover{color:var(--text)}
+
+@media(max-width:768px){
+  .nav-hamburger{display:block}
+  .nav-links .nav-btn,.nav-links .nav-admin-btn,.nav-links .nav-auth-btn,.nav-links .nav-user-chip{display:none}
+  .hero-stats{gap:30px}
+  .section{padding:60px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-brand" onclick="showPage('home')" role="button" tabindex="0" aria-label="MotorLux Home">Motor<span>Lux</span></div>
+  <div class="nav-links" id="nav-desktop">
+    <button class="nav-btn active" data-page="home" onclick="showPage('home',this)">Home</button>
+    <button class="nav-btn" data-page="inventory" onclick="showPage('inventory',this)">Inventory</button>
+    <button class="nav-btn" data-page="financing" onclick="showPage('financing',this)">Financing</button>
+    <button class="nav-btn" data-page="contact" onclick="showPage('contact',this)">Contact</button>
+    <button class="nav-btn" id="nav-dash-btn" data-page="dashboard" onclick="showPage('dashboard',this)" style="display:none">My Dashboard</button>
+    <button class="nav-btn" id="nav-account-btn" data-page="account" onclick="showPage('account',this)" style="display:none">Profile</button>
+    <button class="nav-auth-btn" id="nav-signin-btn" onclick="showPage('account',this)">Sign In</button>
+    <button class="nav-admin-btn" id="nav-owner-btn" data-page="admin" onclick="showPage('admin',this)" style="display:none" aria-label="Owner dashboard">⚙ Owner</button>
+    <span class="nav-user-chip" id="nav-user-chip" style="display:none"></span>
+    <button class="nav-auth-btn" id="nav-logout-btn" onclick="logout()" style="display:none">Sign Out</button>
+  </div>
+  <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Open menu" aria-expanded="false">☰</button>
+</nav>
+<div class="nav-mobile-menu" id="nav-mobile-menu" aria-label="Mobile navigation"></div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ═══════════ HOME PAGE ═══════════ -->
+<div id="page-home" class="page active">
+  <div id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Premium Car Dealership</div>
+      <h1 class="hero-title">Find Your<br><em>Perfect Drive</em></h1>
+      <p class="hero-sub">An exclusive collection of new and pre-owned vehicles.<br>Every car inspected. Every price transparent.</p>
+      <div class="hero-btns">
+        <button class="btn-gold" onclick="showPage('inventory')">Browse Inventory</button>
+        <button class="btn-outline" onclick="showPage('contact')">Book Test Drive</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="n" id="stat-total">0</div><div class="l">Cars Available</div></div>
+      <div class="hero-stat"><div class="n">12</div><div class="l">Years Experience</div></div>
+      <div class="hero-stat"><div class="n">500+</div><div class="l">Happy Customers</div></div>
+    </div>
+  </div>
+
+  <!-- AI SEARCH ON HOME -->
+  <div class="section">
+    <div class="ai-panel">
+      <div class="section-eyebrow">AI-Powered</div>
+      <div class="ai-panel-title">Search</div>
+      <div class="ai-panel-sub">Describe what you need budget, lifestyle, preferences and our AI will match you with the perfect car from our inventory.</div>
+      <div class="search-bar">
+        <input class="search-input" id="ai-search-home" placeholder='e.g. "family SUV under $40k with good fuel economy"' onkeydown="if(event.key==='Enter')doAISearch()"/>
+        <button class="btn-gold" id="ai-search-btn" onclick="doAISearch()">Search</button>
+      </div>
+      <div class="ai-result" id="ai-result"></div>
+    </div>
+
+    <div class="section-header">
+      <div><div class="section-eyebrow">Featured</div><h2 class="section-title">Latest Arrivals</h2></div>
+      <button class="btn-outline" onclick="showPage('inventory')" style="font-size:11px;padding:10px 20px">View All</button>
+    </div>
+    <div class="cars-grid" id="featured-grid"></div>
+  </div>
+</div>
+
+<!-- ═══════════ INVENTORY PAGE ═══════════ -->
+<div id="page-inventory" class="page">
+  <div class="section">
+    <div class="section-header">
+      <div><div class="section-eyebrow">Browse</div><h2 class="section-title">Full Inventory</h2></div>
+      <span id="inv-count" style="font-size:13px;color:var(--text-muted)"></span>
+    </div>
+    <div class="filter-bar" id="filter-bar">
+      <button class="filter-chip active" onclick="filterCars('all',this)">All Cars</button>
+      <button class="filter-chip" onclick="filterCars('new',this)">New</button>
+      <button class="filter-chip" onclick="filterCars('used',this)">Used</button>
+      <button class="filter-chip" onclick="filterCars('sedan',this)">Sedan</button>
+      <button class="filter-chip" onclick="filterCars('suv',this)">SUV</button>
+      <button class="filter-chip" onclick="filterCars('truck',this)">Truck</button>
+      <button class="filter-chip" onclick="filterCars('electric',this)">Electric</button>
+      <button class="filter-chip" onclick="filterCars('luxury',this)">Luxury</button>
+    </div>
+    <div class="search-bar">
+      <input class="search-input" id="inv-search" placeholder="Search by make, model, year…" oninput="filterBySearch()"/>
+    </div>
+    <div class="cars-grid" id="inventory-grid"></div>
+  </div>
+</div>
+
+<!-- ═══════════ FINANCING PAGE ═══════════ -->
+<div id="page-financing" class="page">
+  <div class="section">
+    <div class="section-eyebrow">Tools</div>
+    <h2 class="section-title" style="margin-bottom:40px">Financing Calculator</h2>
+    <div class="calc-grid">
+      <div class="calc-panel">
+        <label class="calc-label">Vehicle Price</label>
+        <input class="calc-input" type="number" id="c-price" value="35000" oninput="calcPayment()"/>
+        <label class="calc-label">Down Payment — <span id="dp-pct">20</span>%</label>
+        <input type="range" min="0" max="80" value="20" id="c-dp" oninput="calcPayment()"/>
+        <label class="calc-label">Loan Term</label>
+        <select class="calc-input" id="c-term" onchange="calcPayment()">
+          <option value="24">24 months</option>
+          <option value="36">36 months</option>
+          <option value="48">48 months</option>
+          <option value="60" selected>60 months</option>
+          <option value="72">72 months</option>
+          <option value="84">84 months</option>
+        </select>
+        <label class="calc-label">Interest Rate — <span id="rate-val">6.5</span>%</label>
+        <input type="range" min="1" max="20" value="6.5" step="0.1" id="c-rate" oninput="calcPayment()"/>
+        <button class="btn-gold" style="width:100%;margin-top:8px" onclick="showPage('contact')">Apply for Financing</button>
+      </div>
+      <div>
+        <div class="calc-result-box" style="margin-bottom:20px">
+          <div class="calc-monthly" id="c-monthly">$658</div>
+          <div class="calc-monthly-label">Estimated Monthly Payment</div>
+        </div>
+        <div class="calc-breakdown">
+          <div class="calc-row"><span>Vehicle Price</span><span id="cb-price">$35,000</span></div>
+          <div class="calc-row"><span>Down Payment</span><span id="cb-dp">$7,000</span></div>
+          <div class="calc-row"><span>Loan Amount</span><span id="cb-loan">$28,000</span></div>
+          <div class="calc-row"><span>Loan Term</span><span id="cb-term">60 months</span></div>
+          <div class="calc-row"><span>Interest Rate</span><span id="cb-rate">6.5%</span></div>
+          <div class="calc-row"><span>Total Interest</span><span id="cb-interest">$4,467</span></div>
+          <div class="calc-row"><span>Total Cost</span><span id="cb-total">$39,467</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CONTACT PAGE ═══════════ -->
+<div id="page-contact" class="page">
+  <div class="section">
+    <div class="section-eyebrow">Get In Touch</div>
+    <h2 class="section-title" style="margin-bottom:40px">Contact Us</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div><div class="contact-item-title">Location</div><div class="contact-item-val" id="contact-address"></div></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div><div class="contact-item-title">Phone</div><div class="contact-item-val" id="contact-phone"></div></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div><div class="contact-item-title">Email</div><div class="contact-item-val" id="contact-email"></div></div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div><div class="contact-item-title">Hours</div><div class="contact-item-val" id="contact-hours"></div></div>
+        </div>
+        <button class="whatsapp-btn" onclick="openWhatsApp()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.864L.057 23.5l5.797-1.522A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.894a9.875 9.875 0 01-5.031-1.375l-.361-.214-3.741.981.999-3.647-.235-.374A9.86 9.86 0 012.106 12c0-5.457 4.437-9.894 9.894-9.894 5.457 0 9.894 4.437 9.894 9.894 0 5.457-4.437 9.894-9.894 9.894z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+      <div>
+        <div id="form-success" class="form-success">✓ Message sent! We'll get back to you within 2 hours.</div>
+        <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="f-name" placeholder="John Smith"/></div>
+        <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" id="f-email" placeholder="john@email.com"/></div>
+        <div class="form-group"><label class="form-label">Phone (optional)</label><input class="form-input" id="f-phone" placeholder="+1 555 000 0000"/></div>
+        <div class="form-group"><label class="form-label">Message</label><textarea class="form-input" id="f-msg" rows="4" placeholder="I'm interested in a test drive / I'd like more info about…"></textarea></div>
+        <button class="btn-gold" style="width:100%" onclick="submitForm()">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CLIENT DASHBOARD ═══════════ -->
+<div id="page-dashboard" class="page">
+  <div class="section">
+    <div id="dash-guest" class="guest-prompt" style="display:none">
+      <h3>Sign in to view your dashboard</h3>
+      <p>Create a free account to track inquiries, save favorites, and manage your profile.</p>
+      <button class="btn-gold" style="margin-top:20px" onclick="showPage('account')">Sign In / Register</button>
+    </div>
+    <div id="dash-content" style="display:none">
+      <div class="dash-welcome">
+        <h2>Welcome back, <span id="dash-name">Guest</span></h2>
+        <p>Track your inquiries and explore our latest inventory.</p>
+      </div>
+      <div class="dash-grid">
+        <div class="dash-card"><div class="dash-card-n" id="dash-inq-count">0</div><div class="dash-card-l">My Inquiries</div></div>
+        <div class="dash-card"><div class="dash-card-n" id="dash-fav-count">0</div><div class="dash-card-l">Saved Cars</div></div>
+        <div class="dash-card"><div class="dash-card-n" id="dash-avail-count">0</div><div class="dash-card-l">Cars Available</div></div>
+        <div class="dash-card"><div class="dash-card-n" id="dash-member-since">—</div><div class="dash-card-l">Member Since</div></div>
+      </div>
+      <h3 class="dash-section-title">Saved Cars</h3>
+      <div class="cars-grid" id="dash-favorites"></div>
+      <h3 class="dash-section-title">My Inquiries</h3>
+      <div class="inquiries-list" id="dash-inquiries"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ACCOUNT / PROFILE ═══════════ -->
+<div id="page-account" class="page">
+  <div class="auth-wrap">
+    <!-- LOGGED OUT -->
+    <div id="auth-forms">
+      <div class="auth-box">
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Sign In</button>
+          <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Register</button>
+        </div>
+        <div id="form-login">
+          <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="login-email" type="email" placeholder="you@email.com" onkeydown="if(event.key==='Enter')loginUser()"/></div>
+          <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="login-pass" type="password" placeholder="••••••" onkeydown="if(event.key==='Enter')loginUser()"/></div>
+          <button class="btn-gold" style="width:100%" onclick="loginUser()">Sign In</button>
+        </div>
+        <div id="form-register" style="display:none">
+          <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="reg-name" placeholder="John Smith"/></div>
+          <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="reg-email" type="email" placeholder="you@email.com"/></div>
+          <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="reg-pass" type="password" placeholder="Min. 6 characters" onkeydown="if(event.key==='Enter')registerUser()"/></div>
+          <div class="form-group"><label class="form-label">Confirm Password</label><input class="form-input" id="reg-pass2" type="password" placeholder="••••••" onkeydown="if(event.key==='Enter')registerUser()"/></div>
+          <button class="btn-gold" style="width:100%" onclick="registerUser()">Create Account</button>
+        </div>
+      </div>
+    </div>
+    <!-- LOGGED IN PROFILE -->
+    <div id="profile-view" style="display:none">
+      <div class="auth-box">
+        <div class="profile-header">
+          <div class="profile-avatar" id="profile-avatar">?</div>
+          <div class="profile-name" id="profile-name"></div>
+          <div class="profile-email" id="profile-email-display"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="prof-name"/></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="prof-email" type="email"/></div>
+        <div class="form-group"><label class="form-label">New Password (leave blank to keep)</label><input class="form-input" id="prof-pass" type="password" placeholder="••••••"/></div>
+        <button class="btn-gold" style="width:100%;margin-bottom:12px" onclick="updateProfile()">Save Changes</button>
+        <button class="btn-outline" style="width:100%;font-size:11px;padding:12px" onclick="showPage('dashboard')">Go to Dashboard</button>
+        <div class="danger-zone">
+          <h4>Danger Zone</h4>
+          <p>Permanently delete your account and all associated data. This cannot be undone.</p>
+          <button class="btn-danger" onclick="deleteAccount()">Delete My Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ADMIN PAGE ═══════════ -->
+<div id="page-admin" class="page">
+  <!-- ACCESS DENIED -->
+  <div id="admin-denied" class="guest-prompt">
+    <h3>Access Restricted</h3>
+    <p>The owner dashboard is only available to authorized administrators.</p>
+    <button class="btn-gold" style="margin-top:20px" onclick="showPage('home')">Back to Home</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="admin-dashboard" class="admin-inner">
+    <div class="admin-header">
+      <h2>Owner Dashboard</h2>
+      <button class="btn-danger" onclick="showPage('home')">Exit Dashboard</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row" id="admin-stats"></div>
+
+    <!-- ADD / EDIT CAR FORM -->
+    <div class="admin-section">
+      <h3 id="form-mode-title">Add New Car</h3>
+      <div class="add-car-form">
+        <input type="hidden" id="edit-id"/>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Make (Brand)</label><input class="form-input" id="af-make" placeholder="e.g. Toyota"/></div>
+          <div class="form-group"><label class="form-label">Model</label><input class="form-input" id="af-model" placeholder="e.g. Camry"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Year</label><input class="form-input" id="af-year" type="number" placeholder="2023"/></div>
+          <div class="form-group"><label class="form-label">Price (USD)</label><input class="form-input" id="af-price" type="number" placeholder="28000"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Mileage (km)</label><input class="form-input" id="af-mileage" placeholder="15,000"/></div>
+          <div class="form-group"><label class="form-label">Fuel Type</label>
+            <select class="form-input" id="af-fuel">
+              <option>Petrol</option><option>Diesel</option><option>Electric</option><option>Hybrid</option><option>LPG</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Transmission</label>
+            <select class="form-input" id="af-trans">
+              <option>Automatic</option><option>Manual</option><option>CVT</option><option>Semi-Auto</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Category</label>
+            <select class="form-input" id="af-cat">
+              <option value="sedan">Sedan</option><option value="suv">SUV</option><option value="truck">Truck</option>
+              <option value="electric">Electric</option><option value="luxury">Luxury</option><option value="coupe">Coupe</option><option value="van">Van</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Condition</label>
+            <select class="form-input" id="af-cond">
+              <option value="new">New</option><option value="used">Used</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Status</label>
+            <select class="form-input" id="af-status">
+              <option value="available">Available</option><option value="sold">Sold</option><option value="reserved">Reserved</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label class="form-label">Image URL (or leave blank for placeholder)</label><input class="form-input" id="af-img" placeholder="https://images.unsplash.com/..."/></div>
+        <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="af-desc" rows="3" placeholder="Key features, condition notes, extras included…"></textarea></div>
+        <div class="form-group"><label class="form-label">Color</label><input class="form-input" id="af-color" placeholder="Midnight Black"/></div>
+        <div style="display:flex;gap:12px;margin-top:8px">
+          <button class="btn-gold" onclick="saveCar()">Save Car</button>
+          <button class="btn-outline" id="cancel-edit-btn" onclick="cancelEdit()" style="display:none;font-size:11px;padding:12px 20px">Cancel Edit</button>
+        </div>
+      </div>
+
+      <!-- CAR LIST -->
+      <h3>Manage Inventory (<span id="admin-inv-count">0</span>)</h3>
+      <div class="admin-cars-list" id="admin-cars-list"></div>
+    </div>
+
+    <!-- INQUIRIES -->
+    <div class="admin-section">
+      <h3>Customer Inquiries (<span id="inq-count">0</span>)</h3>
+      <div class="inquiries-list" id="inquiries-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CAR MODAL -->
+<div class="modal-overlay" id="car-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">×</button>
+    <img class="modal-img" id="modal-img" src="" alt=""/>
+    <div class="modal-body">
+      <div class="modal-make" id="modal-make"></div>
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-specs-grid" id="modal-specs"></div>
+      <div class="modal-desc" id="modal-desc"></div>
+      <div class="modal-price-row">
+        <div class="modal-price" id="modal-price"></div>
+        <div style="display:flex;gap:10px">
+          <button class="fav-btn modal-fav-btn" id="modal-fav-btn" data-fav-id="" onclick="toggleFavorite(currentModalCar&&currentModalCar.id,event)" aria-label="Save car">&hearts;</button>
+          <button class="btn-outline" style="font-size:11px;padding:10px 16px" onclick="closeModal();showPage('contact')">Enquire</button>
+          <button class="btn-gold" style="font-size:11px;padding:10px 16px" onclick="openWhatsAppCar()">WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHATBOT -->
+<button id="chat-fab" onclick="toggleChat()" aria-label="Open chat assistant">💬</button>
+<div id="chat-panel">
+  <div class="chat-header">
+    <div>
+      <div class="chat-header-title">MotorLux Assistant</div>
+      <div class="chat-header-status"><span class="chat-dot"></span>Online</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">×</button>
+  </div>
+  <div class="chat-msgs" id="chat-msgs">
+    <div class="cmsg bot">Hello! I'm your MotorLux AI assistant. Ask me anything about our inventory, pricing, financing, or to book a test drive.</div>
+    <div class="chat-typing-indicator" id="chat-typing">Typing…</div>
+  </div>
+  <div class="chat-footer">
+    <input class="chat-input-field" id="chat-in" placeholder="Ask anything…" onkeydown="if(event.key==='Enter')sendChat()"/>
+    <button class="chat-send" onclick="sendChat()">→</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="main-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">MotorLux</div>
+        <div class="footer-desc">Premium car dealership offering new and pre-owned vehicles. Every car inspected, every price transparent. Your satisfaction is our guarantee.</div>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><button type="button" onclick="showPage('home')">Home</button></li>
+          <li><button type="button" onclick="showPage('inventory')">Inventory</button></li>
+          <li><button type="button" onclick="showPage('financing')">Financing</button></li>
+          <li><button type="button" onclick="showPage('contact')">Contact</button></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li id="footer-address"></li>
+          <li id="footer-phone"></li>
+          <li id="footer-email"></li>
+          <li id="footer-hours"></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 MotorLux. All rights reserved.</div>
+      <div class="footer-copy">Built with ❤️ for car lovers</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════
+// UTILITIES
+// ══════════════════════════════════════════
+function escapeHtml(str){
+  if(str==null)return'';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function isValidEmail(e){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)}
+function nextId(list){return list.length?Math.max(...list.map(x=>x.id))+1:1}
+
+// ══════════════════════════════════════════
+// DATA LAYER
+// ══════════════════════════════════════════
+const CONTACT_INFO={
+  phone:'+1 (555) 000-1234',
+  whatsapp:'15550001234',
+  email:'sales@motorlux.com',
+  addressLines:['123 Motor Avenue','Automobile City, AC 10001'],
+  hoursLines:['Mon-Sat: 9am - 7pm','Sunday: 10am - 4pm']
+};
+
+const appState={cars:[],inquiries:[],user:null,favorites:[]};
+
+async function api(path,options={}){
+  const res=await fetch(path,{
+    method:options.method||'GET',
+    credentials:'same-origin',
+    headers:{'Content-Type':'application/json',...(options.headers||{})},
+    body:options.body?JSON.stringify(options.body):undefined
+  });
+  let data=null;
+  try{data=await res.json()}catch(e){}
+  if(!res.ok)throw new Error((data&&data.error)||'Request failed');
+  return data||{};
+}
+
+async function loadCars(){
+  const data=await api('/api/cars');
+  appState.cars=data.cars||[];
+}
+
+async function loadSession(){
+  const data=await api('/api/auth/me');
+  appState.user=data.user||null;
+}
+
+async function loadUserData(){
+  if(!appState.user){appState.inquiries=[];appState.favorites=[];return}
+  const inq=await api('/api/inquiries');
+  appState.inquiries=inq.inquiries||[];
+  if(appState.user.role==='admin'){appState.favorites=[];return}
+  const fav=await api('/api/favorites');
+  appState.favorites=(fav.favorites||[]).map(Number);
+}
+
+async function loadInitialData(){
+  await loadSession();
+  await loadCars();
+  await loadUserData();
+}
+
+function getCars(){return appState.cars}
+function getInquiries(){return appState.inquiries}
+function getCurrentUser(){return appState.user}
+function isAdmin(){const u=getCurrentUser();return u&&u.role==='admin'}
+function getUserFavorites(userId){return getCurrentUser()?.id===userId?appState.favorites:[]}
+function isFavorite(carId){
+  const user=getCurrentUser();
+  return !!(user&&user.role!=='admin'&&getUserFavorites(user.id).includes(Number(carId)));
+}
+function contactLinesHTML(lines){return lines.map(escapeHtml).join('<br>')}
+function applyContactInfo(){
+  const setText=(id,text)=>{const el=document.getElementById(id);if(el)el.textContent=text};
+  const setHTML=(id,html)=>{const el=document.getElementById(id);if(el)el.innerHTML=html};
+  setHTML('contact-address',contactLinesHTML(CONTACT_INFO.addressLines));
+  setText('contact-phone',CONTACT_INFO.phone);
+  setText('contact-email',CONTACT_INFO.email);
+  setHTML('contact-hours',contactLinesHTML(CONTACT_INFO.hoursLines));
+  setText('footer-address',CONTACT_INFO.addressLines[0]);
+  setText('footer-phone',CONTACT_INFO.phone);
+  setText('footer-email',CONTACT_INFO.email);
+  setText('footer-hours',CONTACT_INFO.hoursLines[0]);
+}
+
+// ══════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════
+function switchAuthTab(tab){
+  document.getElementById('tab-login').classList.toggle('active',tab==='login');
+  document.getElementById('tab-register').classList.toggle('active',tab==='register');
+  document.getElementById('form-login').style.display=tab==='login'?'block':'none';
+  document.getElementById('form-register').style.display=tab==='register'?'block':'none';
+}
+
+async function registerUser(){
+  const name=document.getElementById('reg-name').value.trim();
+  const email=document.getElementById('reg-email').value.trim().toLowerCase();
+  const pass=document.getElementById('reg-pass').value;
+  const pass2=document.getElementById('reg-pass2').value;
+  if(!name||!email||!pass){showToast('Please fill in all fields.');return}
+  if(!isValidEmail(email)){showToast('Please enter a valid email.');return}
+  if(pass.length<6){showToast('Password must be at least 6 characters.');return}
+  if(pass!==pass2){showToast('Passwords do not match.');return}
+  try{
+    const data=await api('/api/auth/register',{method:'POST',body:{name,email,password:pass}});
+    appState.user=data.user;
+    await loadUserData();
+    showToast('Account created! Welcome to MotorLux.');
+    ['reg-name','reg-email','reg-pass','reg-pass2'].forEach(id=>document.getElementById(id).value='');
+    updateNavAuth();renderAccountPage();await showPage('dashboard');
+  }catch(err){showToast(err.message)}
+}
+
+async function loginUser(){
+  const email=document.getElementById('login-email').value.trim().toLowerCase();
+  const pass=document.getElementById('login-pass').value;
+  if(!email||!pass){showToast('Please enter email and password.');return}
+  try{
+    const data=await api('/api/auth/login',{method:'POST',body:{email,password:pass}});
+    appState.user=data.user;
+    await loadUserData();
+    document.getElementById('login-email').value='';document.getElementById('login-pass').value='';
+    showToast('Welcome back, '+appState.user.name+'!');
+    updateNavAuth();renderAccountPage();
+    await showPage(appState.user.role==='admin'?'admin':'dashboard');
+  }catch(err){showToast(err.message)}
+}
+
+async function logout(){
+  try{await api('/api/auth/logout',{method:'POST'})}catch(e){}
+  appState.user=null;appState.inquiries=[];appState.favorites=[];
+  updateNavAuth();showToast('Signed out.');
+  await showPage('home');
+}
+
+async function updateProfile(){
+  const user=getCurrentUser();if(!user)return;
+  const name=document.getElementById('prof-name').value.trim();
+  const email=document.getElementById('prof-email').value.trim().toLowerCase();
+  const pass=document.getElementById('prof-pass').value;
+  if(!name||!email){showToast('Name and email are required.');return}
+  if(!isValidEmail(email)){showToast('Please enter a valid email.');return}
+  if(pass&&pass.length<6){showToast('Password must be at least 6 characters.');return}
+  try{
+    const data=await api('/api/auth/profile',{method:'PUT',body:{name,email,password:pass}});
+    appState.user=data.user;
+    document.getElementById('prof-pass').value='';
+    showToast('Profile updated!');
+    updateNavAuth();renderAccountPage();
+  }catch(err){showToast(err.message)}
+}
+
+async function deleteAccount(){
+  const user=getCurrentUser();if(!user)return;
+  if(user.role==='admin'){showToast('Admin accounts cannot be deleted.');return}
+  if(!confirm('Delete your account permanently? This cannot be undone.'))return;
+  try{
+    await api('/api/auth/me',{method:'DELETE'});
+    appState.user=null;appState.inquiries=[];appState.favorites=[];
+    updateNavAuth();
+    showToast('Account deleted.');
+    await showPage('home');
+  }catch(err){showToast(err.message)}
+}
+
+function renderAccountPage(){
+  const user=getCurrentUser();
+  const authForms=document.getElementById('auth-forms');
+  const profileView=document.getElementById('profile-view');
+  if(!user){authForms.style.display='block';profileView.style.display='none';return}
+  authForms.style.display='none';profileView.style.display='block';
+  document.getElementById('profile-avatar').textContent=(user.name||'?')[0].toUpperCase();
+  document.getElementById('profile-name').textContent=user.name;
+  document.getElementById('profile-email-display').textContent=user.email;
+  document.getElementById('prof-name').value=user.name;
+  document.getElementById('prof-email').value=user.email;
+  document.getElementById('prof-pass').value='';
+  const dashBtn=document.querySelector('#profile-view .btn-outline');
+  if(dashBtn)dashBtn.style.display=user.role==='admin'?'none':'block';
+}
+
+function renderClientDashboard(){
+  const user=getCurrentUser();
+  const guest=document.getElementById('dash-guest');
+  const content=document.getElementById('dash-content');
+  if(!user||user.role==='admin'){
+    guest.style.display='block';content.style.display='none';
+    guest.querySelector('p').textContent=user&&user.role==='admin'?'Admins use the Owner dashboard to manage inventory.':'Create a free account to track inquiries, save favorites, and manage your profile.';
+    return;
+  }
+  guest.style.display='none';content.style.display='block';
+  document.getElementById('dash-name').textContent=user.name;
+  const myInqs=getInquiries().filter(i=>i.userId===user.id||i.email===user.email);
+  const savedIds=getUserFavorites(user.id);
+  const allCars=getCars();
+  const savedCars=savedIds.map(id=>allCars.find(c=>c.id===id)).filter(Boolean);
+  document.getElementById('dash-inq-count').textContent=myInqs.length;
+  document.getElementById('dash-fav-count').textContent=savedCars.length;
+  document.getElementById('dash-avail-count').textContent=getCars().filter(c=>c.status==='available').length;
+  document.getElementById('dash-member-since').textContent=new Date(user.createdAt).toLocaleDateString('en-US',{month:'short',year:'numeric'});
+  const favGrid=document.getElementById('dash-favorites');
+  favGrid.innerHTML=savedCars.length?savedCars.map(carHTML).join(''):'<div class="saved-empty" style="grid-column:1/-1">No saved cars yet. <button type="button" class="btn-outline" style="font-size:11px;padding:8px 14px;margin-left:8px" onclick="showPage(\'inventory\')">Browse Inventory</button></div>';
+  const list=document.getElementById('dash-inquiries');
+  if(!myInqs.length){list.innerHTML='<div style="color:var(--text-muted);font-size:13px;padding:20px 0">No inquiries yet. <button type="button" class="btn-outline" style="font-size:11px;padding:8px 14px;margin-left:8px" onclick="showPage(\'contact\')">Contact Us</button></div>';return}
+  list.innerHTML=myInqs.map(inq=>{
+    const isNew=(Date.now()-new Date(inq.date).getTime())<7*86400000;
+    return`<div class="inquiry-card">
+      <div class="inquiry-name">${escapeHtml(inq.name)}${isNew?'<span class="badge-new">New</span>':''}</div>
+      <div class="inquiry-meta">${escapeHtml(inq.email)}${inq.phone?' · '+escapeHtml(inq.phone):''} · ${new Date(inq.date).toLocaleDateString()}</div>
+      <div class="inquiry-msg">"${escapeHtml(inq.msg||'No message')}"</div>
+    </div>`;
+  }).join('');
+}
+
+function updateNavAuth(){
+  const user=getCurrentUser();
+  const isLoggedIn=!!user;
+  const admin=isAdmin();
+  document.getElementById('nav-signin-btn').style.display=isLoggedIn?'none':'inline-block';
+  document.getElementById('nav-logout-btn').style.display=isLoggedIn?'inline-block':'none';
+  document.getElementById('nav-account-btn').style.display=isLoggedIn?'inline-block':'none';
+  document.getElementById('nav-dash-btn').style.display=(isLoggedIn&&!admin)?'inline-block':'none';
+  document.getElementById('nav-owner-btn').style.display=admin?'inline-block':'none';
+  const chip=document.getElementById('nav-user-chip');
+  if(isLoggedIn){chip.style.display='inline-block';chip.textContent=user.name.split(' ')[0]}
+  else chip.style.display='none';
+  buildMobileNav();
+  updateFavoriteButtons();
+}
+
+function buildMobileNav(){
+  const menu=document.getElementById('nav-mobile-menu');
+  const pages=[
+    {id:'home',label:'Home',cls:'nav-btn'},
+    {id:'inventory',label:'Inventory',cls:'nav-btn'},
+    {id:'financing',label:'Financing',cls:'nav-btn'},
+    {id:'contact',label:'Contact',cls:'nav-btn'},
+  ];
+  const user=getCurrentUser();
+  if(user&&user.role!=='admin')pages.push({id:'dashboard',label:'My Dashboard',cls:'nav-btn'});
+  if(user)pages.push({id:'account',label:'Profile',cls:'nav-btn'});
+  if(isAdmin())pages.push({id:'admin',label:'⚙ Owner',cls:'nav-admin-btn'});
+  if(!user)pages.push({id:'account',label:'Sign In',cls:'nav-auth-btn'});
+  let html=pages.map(p=>`<button class="${p.cls}" data-page="${p.id}" onclick="showPage('${p.id}',this);toggleMobileNav(true)">${p.label}</button>`).join('');
+  if(user)html+=`<button class="nav-auth-btn" onclick="logout();toggleMobileNav(true)">Sign Out</button>`;
+  menu.innerHTML=html;
+}
+
+function toggleMobileNav(forceClose){
+  const menu=document.getElementById('nav-mobile-menu');
+  const btn=document.getElementById('nav-hamburger');
+  const open=forceClose===true?false:!menu.classList.contains('show');
+  menu.classList.toggle('show',open);
+  btn.setAttribute('aria-expanded',open);
+  btn.textContent=open?'✕':'☰';
+  btn.setAttribute('aria-label',open?'Close menu':'Open menu');
+}
+
+// ══════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════
+let currentPage='home';
+async function showPage(id,btnEl){
+  if(id==='admin'){
+    document.body.classList.add('admin-page');
+    if(isAdmin()){
+      await loadUserData();
+      document.getElementById('admin-denied').style.display='none';
+      document.getElementById('admin-dashboard').classList.add('show');
+      renderAdminDashboard();
+    }else{
+      document.getElementById('admin-denied').style.display='block';
+      document.getElementById('admin-dashboard').classList.remove('show');
+    }
+  }else{
+    document.body.classList.remove('admin-page');
+  }
+
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn,.nav-admin-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const activeBtn=btnEl||document.querySelector(`[data-page="${id}"]`);
+  if(activeBtn)activeBtn.classList.add('active');
+  currentPage=id;
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='home')renderFeatured();
+  if(id==='inventory'){await loadCars();renderInventory();}
+  if(id==='financing')calcPayment();
+  if(id==='account')renderAccountPage();
+  if(id==='dashboard'){await loadUserData();renderClientDashboard();}
+}
+
+// ══════════════════════════════════════════
+// RENDER CARS
+// ══════════════════════════════════════════
+let currentFilter='all';
+let currentSearch='';
+let currentModalCar=null;
+const PLACEHOLDER_IMG='https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80';
+
+function carImgFallback(){return PLACEHOLDER_IMG}
+
+function carBadge(car){
+  if(car.status==='sold')return'<span class="car-badge sold">Sold</span>';
+  if(car.status==='reserved')return'<span class="car-badge reserved">Reserved</span>';
+  if(car.cond==='new')return'<span class="car-badge">New</span>';
+  return'<span class="car-badge used">Used</span>';
+}
+
+function carHTML(car){
+  const img=car.img||carImgFallback();
+  const id=Number(car.id);
+  const saved=isFavorite(id);
+  const favLabel=saved?'Remove from saved cars':'Save car';
+  return`<div class="car-card" onclick="openModal(${id})" role="button" tabindex="0" onkeydown="if(event.key==='Enter')openModal(${id})">
+    ${carBadge(car)}
+    <button class="fav-btn${saved?' saved':''}" data-fav-id="${id}" onclick="toggleFavorite(${id},event)" aria-label="${escapeHtml(favLabel)}" title="${escapeHtml(favLabel)}">&hearts;</button>
+    <div class="car-img-wrap"><img src="${escapeHtml(img)}" alt="${escapeHtml(car.make+' '+car.model)}" onerror="this.src='${PLACEHOLDER_IMG}'" loading="lazy"/></div>
+    <div class="car-body">
+      <div class="car-make">${escapeHtml(car.make)}</div>
+      <div class="car-name">${car.year} ${escapeHtml(car.model)}</div>
+      <div class="car-specs">
+        <span class="car-spec">⛽ ${escapeHtml(car.fuel)}</span>
+        <span class="car-spec">⚙ ${escapeHtml(car.trans)}</span>
+        <span class="car-spec">📍 ${escapeHtml(car.mileage)} km</span>
+      </div>
+      <div class="car-price-row">
+        <div class="car-price">$${Number(car.price).toLocaleString()}</div>
+        <button class="car-cta" onclick="event.stopPropagation();openModal(${id})">Details</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function matchesFilter(car,f){
+  if(f==='all')return true;
+  if(f==='new'||f==='used')return car.cond===f;
+  if(f==='electric')return car.cat==='electric'||car.fuel.toLowerCase()==='electric';
+  return car.cat===f;
+}
+
+function renderFeatured(){
+  const cars=getCars().filter(c=>c.status==='available').slice(0,3);
+  document.getElementById('featured-grid').innerHTML=cars.map(carHTML).join('');
+  document.getElementById('stat-total').textContent=getCars().filter(c=>c.status==='available').length;
+}
+
+function renderInventory(){
+  let cars=getCars().filter(c=>c.status!=='sold');
+  if(currentFilter!=='all')cars=cars.filter(c=>matchesFilter(c,currentFilter));
+  if(currentSearch)cars=cars.filter(c=>`${c.make} ${c.model} ${c.year} ${c.cat} ${c.fuel}`.toLowerCase().includes(currentSearch.toLowerCase()));
+  const grid=document.getElementById('inventory-grid');
+  document.getElementById('inv-count').textContent=`${cars.length} car${cars.length!==1?'s':''}`;
+  if(!cars.length){grid.innerHTML=`<div class="no-results" style="grid-column:1/-1"><h3>No cars found</h3><p style="color:var(--text-muted);margin-top:8px">Try adjusting your filters</p></div>`;return}
+  grid.innerHTML=cars.map(carHTML).join('');
+}
+
+function filterCars(f,btn){
+  currentFilter=f;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  renderInventory();
+}
+
+function filterBySearch(){
+  currentSearch=document.getElementById('inv-search').value;
+  renderInventory();
+}
+
+async function toggleFavorite(carId,event){
+  if(event){event.stopPropagation();event.preventDefault();}
+  const id=Number(carId);if(!id)return;
+  const user=getCurrentUser();
+  if(!user){showToast('Sign in to save cars.');await showPage('account');return}
+  if(user.role==='admin'){showToast('Saved cars are available for client accounts.');return}
+  const saved=getUserFavorites(user.id);
+  const removing=saved.includes(id);
+  try{
+    const data=await api('/api/favorites/'+id,{method:removing?'DELETE':'POST'});
+    appState.favorites=(data.favorites||[]).map(Number);
+    showToast(removing?'Removed from saved cars.':'Saved to your dashboard.');
+    updateFavoriteButtons();
+    if(currentPage==='dashboard')renderClientDashboard();
+  }catch(err){showToast(err.message)}
+}
+
+function updateFavoriteButtons(){
+  document.querySelectorAll('.fav-btn[data-fav-id]').forEach(btn=>{
+    const saved=isFavorite(btn.dataset.favId);
+    const label=saved?'Remove from saved cars':'Save car';
+    btn.classList.toggle('saved',saved);
+    btn.setAttribute('aria-label',label);
+    btn.setAttribute('title',label);
+  });
+}
+
+// ══════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════
+function openModal(id){
+  const car=getCars().find(c=>c.id===id);
+  if(!car)return;
+  currentModalCar=car;
+  document.getElementById('modal-img').src=car.img||carImgFallback();
+  document.getElementById('modal-img').alt=car.make+' '+car.model;
+  document.getElementById('modal-make').textContent=car.make;
+  document.getElementById('modal-title').textContent=`${car.year} ${car.model}`;
+  document.getElementById('modal-desc').textContent=car.desc||'Contact us for more details.';
+  document.getElementById('modal-price').textContent=`$${Number(car.price).toLocaleString()}`;
+  document.getElementById('modal-specs').innerHTML=[
+    {sv:car.year,sk:'Year'},{sv:car.fuel,sk:'Fuel'},{sv:car.trans,sk:'Gearbox'},
+    {sv:car.mileage+' km',sk:'Mileage'},{sv:car.color||'—',sk:'Color'},{sv:car.cond==='new'?'New':'Used',sk:'Condition'}
+  ].map(s=>`<div class="modal-spec"><span class="sv">${escapeHtml(s.sv)}</span><span class="sk">${escapeHtml(s.sk)}</span></div>`).join('');
+  document.getElementById('modal-fav-btn').dataset.favId=car.id;
+  updateFavoriteButtons();
+  document.getElementById('car-modal').classList.add('show');
+  document.body.style.overflow='hidden';
+  document.getElementById('car-modal').querySelector('.modal-close').focus();
+}
+function closeModal(){
+  document.getElementById('car-modal').classList.remove('show');
+  document.body.style.overflow='';
+}
+document.getElementById('car-modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&document.getElementById('car-modal').classList.contains('show'))closeModal();
+});
+
+function openWhatsApp(){window.open('https://wa.me/'+CONTACT_INFO.whatsapp+'?text='+encodeURIComponent('Hello MotorLux! I am interested in your cars.'),'_blank')}
+function openWhatsAppCar(){
+  if(!currentModalCar)return;
+  const msg=`Hello MotorLux! I'm interested in the ${currentModalCar.year} ${currentModalCar.make} ${currentModalCar.model} listed at $${Number(currentModalCar.price).toLocaleString()}. Please contact me.`;
+  window.open('https://wa.me/'+CONTACT_INFO.whatsapp+'?text='+encodeURIComponent(msg),'_blank');
+}
+
+// ══════════════════════════════════════════
+// FINANCING CALCULATOR
+// ══════════════════════════════════════════
+function calcPayment(){
+  const price=parseFloat(document.getElementById('c-price').value)||0;
+  const dpPct=parseFloat(document.getElementById('c-dp').value)||0;
+  const term=parseInt(document.getElementById('c-term').value)||60;
+  const rate=parseFloat(document.getElementById('c-rate').value)||0;
+  document.getElementById('dp-pct').textContent=dpPct.toFixed(0);
+  document.getElementById('rate-val').textContent=rate.toFixed(1);
+  const dp=price*(dpPct/100);
+  const loan=price-dp;
+  const monthly=rate===0?loan/term:loan*((rate/100/12)*Math.pow(1+rate/100/12,term))/(Math.pow(1+rate/100/12,term)-1);
+  const totalPaid=monthly*term;
+  const totalInterest=totalPaid-loan;
+  document.getElementById('c-monthly').textContent=`$${Math.round(monthly).toLocaleString()}`;
+  document.getElementById('cb-price').textContent=`$${price.toLocaleString()}`;
+  document.getElementById('cb-dp').textContent=`$${Math.round(dp).toLocaleString()}`;
+  document.getElementById('cb-loan').textContent=`$${Math.round(loan).toLocaleString()}`;
+  document.getElementById('cb-term').textContent=`${term} months`;
+  document.getElementById('cb-rate').textContent=`${rate.toFixed(1)}%`;
+  document.getElementById('cb-interest').textContent=`$${Math.round(totalInterest).toLocaleString()}`;
+  document.getElementById('cb-total').textContent=`$${Math.round(totalPaid+dp).toLocaleString()}`;
+}
+
+// ══════════════════════════════════════════
+// CONTACT FORM
+// ══════════════════════════════════════════
+async function submitForm(){
+  const name=document.getElementById('f-name').value.trim();
+  const email=document.getElementById('f-email').value.trim();
+  const msg=document.getElementById('f-msg').value.trim();
+  if(!name||!email||!msg){showToast('Please fill in name, email, and message.');return}
+  if(!isValidEmail(email)){showToast('Please enter a valid email.');return}
+  try{
+    await api('/api/inquiries',{method:'POST',body:{name,email,phone:document.getElementById('f-phone').value.trim(),msg}});
+    if(getCurrentUser())await loadUserData();
+    document.getElementById('form-success').classList.add('show');
+    document.getElementById('f-name').value='';document.getElementById('f-email').value='';
+    document.getElementById('f-phone').value='';document.getElementById('f-msg').value='';
+    setTimeout(()=>document.getElementById('form-success').classList.remove('show'),5000);
+  }catch(err){showToast(err.message)}
+}
+
+// ══════════════════════════════════════════
+// ADMIN
+// ══════════════════════════════════════════
+function renderAdminDashboard(){
+  if(!isAdmin())return;
+  const cars=getCars();
+  const inqs=getInquiries();
+  const avail=cars.filter(c=>c.status==='available').length;
+  const sold=cars.filter(c=>c.status==='sold').length;
+  document.getElementById('admin-stats').innerHTML=[
+    {n:cars.length,l:'Total Listings'},{n:avail,l:'Available'},{n:sold,l:'Sold'},{n:inqs.length,l:'Inquiries'}
+  ].map(s=>`<div class="stat-card"><div class="stat-n">${s.n}</div><div class="stat-l">${escapeHtml(s.l)}</div></div>`).join('');
+
+  document.getElementById('admin-inv-count').textContent=cars.length;
+  document.getElementById('admin-cars-list').innerHTML=cars.map(car=>`
+    <div class="admin-car-row">
+      <img class="admin-car-img" src="${escapeHtml(car.img||carImgFallback())}" alt="${escapeHtml(car.make+' '+car.model)}" onerror="this.src='${PLACEHOLDER_IMG}'"/>
+      <div class="admin-car-info">
+        <div class="admin-car-name">${car.year} ${escapeHtml(car.make)} ${escapeHtml(car.model)}</div>
+        <div class="admin-car-meta">${escapeHtml(car.cat.toUpperCase())} · ${escapeHtml(car.fuel)} · ${escapeHtml(car.cond)} · <span style="color:${car.status==='available'?'var(--green)':car.status==='sold'?'var(--red)':'var(--gold)'}">${escapeHtml(car.status)}</span></div>
+      </div>
+      <div class="admin-car-price">$${Number(car.price).toLocaleString()}</div>
+      <button class="btn-edit" onclick="startEdit(${car.id})">Edit</button>
+      <button class="btn-danger" onclick="deleteCar(${car.id})">Delete</button>
+    </div>`).join('');
+
+  document.getElementById('inq-count').textContent=inqs.length;
+  document.getElementById('inquiries-list').innerHTML=!inqs.length?
+    '<div style="color:var(--text-muted);font-size:13px;padding:20px 0">No inquiries yet.</div>':
+    inqs.map(inq=>{
+      const isNew=(Date.now()-new Date(inq.date).getTime())<7*86400000;
+      return`<div class="inquiry-card">
+        <div class="inquiry-name">${escapeHtml(inq.name)}${isNew?'<span class="badge-new">New</span>':''}</div>
+        <div class="inquiry-meta">${escapeHtml(inq.email)}${inq.phone?' · '+escapeHtml(inq.phone):''} · ${new Date(inq.date).toLocaleDateString()}</div>
+        <div class="inquiry-msg">"${escapeHtml(inq.msg||'No message')}"</div>
+      </div>`;
+    }).join('');
+}
+
+async function saveCar(){
+  const editId=document.getElementById('edit-id').value;
+  const car={
+    id:editId?parseInt(editId):nextId(getCars()),
+    make:document.getElementById('af-make').value.trim(),
+    model:document.getElementById('af-model').value.trim(),
+    year:parseInt(document.getElementById('af-year').value)||new Date().getFullYear(),
+    price:parseFloat(document.getElementById('af-price').value)||0,
+    mileage:document.getElementById('af-mileage').value.trim()||'0',
+    fuel:document.getElementById('af-fuel').value,
+    trans:document.getElementById('af-trans').value,
+    cat:document.getElementById('af-cat').value,
+    cond:document.getElementById('af-cond').value,
+    status:document.getElementById('af-status').value,
+    img:document.getElementById('af-img').value.trim(),
+    desc:document.getElementById('af-desc').value.trim(),
+    color:document.getElementById('af-color').value.trim(),
+  };
+  if(!car.make||!car.model){showToast('Make and Model are required.');return}
+  try{
+    await api(editId?'/api/cars/'+car.id:'/api/cars',{method:editId?'PUT':'POST',body:car});
+    await loadCars();
+    await loadUserData();
+    resetCarForm();
+    renderAdminDashboard();
+    renderFeatured();
+    showToast(editId?'Car updated!':'Car added successfully!');
+  }catch(err){showToast(err.message)}
+}
+
+function startEdit(id){
+  const car=getCars().find(c=>c.id===id);if(!car)return;
+  document.getElementById('edit-id').value=car.id;
+  document.getElementById('af-make').value=car.make;
+  document.getElementById('af-model').value=car.model;
+  document.getElementById('af-year').value=car.year;
+  document.getElementById('af-price').value=car.price;
+  document.getElementById('af-mileage').value=car.mileage;
+  document.getElementById('af-fuel').value=car.fuel;
+  document.getElementById('af-trans').value=car.trans;
+  document.getElementById('af-cat').value=car.cat;
+  document.getElementById('af-cond').value=car.cond;
+  document.getElementById('af-status').value=car.status;
+  document.getElementById('af-img').value=car.img||'';
+  document.getElementById('af-desc').value=car.desc||'';
+  document.getElementById('af-color').value=car.color||'';
+  document.getElementById('form-mode-title').textContent='Edit Car';
+  document.getElementById('cancel-edit-btn').style.display='inline-block';
+  document.getElementById('af-make').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function cancelEdit(){resetCarForm()}
+
+function resetCarForm(){
+  ['edit-id','af-make','af-model','af-year','af-price','af-mileage','af-img','af-desc','af-color'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('form-mode-title').textContent='Add New Car';
+  document.getElementById('cancel-edit-btn').style.display='none';
+}
+
+async function deleteCar(id){
+  if(!confirm('Delete this car from inventory?'))return;
+  try{
+    await api('/api/cars/'+id,{method:'DELETE'});
+    await loadCars();
+    await loadUserData();
+    renderAdminDashboard();
+    renderFeatured();
+    showToast('Car removed from inventory.');
+  }catch(err){showToast(err.message)}
+}
+
+// ══════════════════════════════════════════
+// AI — local fallback + optional API
+// ══════════════════════════════════════════
+function inventorySummary(){
+  return getCars().filter(c=>c.status!=='sold').map(c=>`${c.year} ${c.make} ${c.model} — $${Number(c.price).toLocaleString()} — ${c.cond} — ${c.fuel} — ${c.cat} — ${c.status}`).join('\n');
+}
+
+function localAISearch(query){
+  const q=query.toLowerCase();
+  let cars=getCars().filter(c=>c.status==='available');
+  const budgetMatch=q.match(/under\s*\$?([\d,]+)k?|below\s*\$?([\d,]+)k?|max\s*\$?([\d,]+)k?/i);
+  if(budgetMatch){
+    let max=parseInt((budgetMatch[1]||budgetMatch[2]||budgetMatch[3]).replace(/,/g,''));
+    if(/k/i.test(budgetMatch[0])||max<1000)max*=1000;
+    cars=cars.filter(c=>c.price<=max);
+  }
+  const types={suv:'suv',sedan:'sedan',truck:'truck',electric:'electric',luxury:'luxury',family:'suv',sport:'sedan'};
+  for(const[k,v]of Object.entries(types)){if(q.includes(k))cars=cars.filter(c=>c.cat===v||c.fuel.toLowerCase()===k);}
+  if(q.includes('electric')||q.includes('ev'))cars=cars.filter(c=>c.fuel.toLowerCase()==='electric'||c.cat==='electric');
+  if(q.includes('new'))cars=cars.filter(c=>c.cond==='new');
+  if(q.includes('used'))cars=cars.filter(c=>c.cond==='used');
+  if(q.includes('cheap')||q.includes('affordable'))cars.sort((a,b)=>a.price-b.price);
+  if(!cars.length)return"No exact matches found. Try browsing our full inventory or adjusting your budget.";
+  const top=cars.slice(0,3);
+  return"Based on your search, I'd recommend:\n\n"+top.map((c,i)=>`${i+1}. ${c.year} ${c.make} ${c.model} — $${Number(c.price).toLocaleString()} (${c.fuel}, ${c.cond})`).join('\n')+"\n\nClick any car in our inventory for full details, or contact us to book a test drive!";
+}
+
+async function callClaude(userMsg,systemMsg){
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:systemMsg,messages:[{role:'user',content:userMsg}]})
+    });
+    if(!res.ok)throw new Error('API unavailable');
+    const data=await res.json();
+    if(data.content?.[0]?.text)return data.content[0].text;
+    throw new Error('No response');
+  }catch{return null}
+}
+
+async function doAISearch(){
+  const q=document.getElementById('ai-search-home').value.trim();
+  if(!q)return;
+  const btn=document.getElementById('ai-search-btn');
+  const result=document.getElementById('ai-result');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Searching…';
+  result.className='ai-result show';result.textContent='Searching our inventory…';
+  let answer=await callClaude(
+    `Customer query: "${q}"\n\nCurrent inventory:\n${inventorySummary()}\n\nRecommend the best matching cars. Be specific, mention the car name and price. Max 150 words.`,
+    'You are an expert car sales advisor for MotorLux dealership. Match customers to cars from the inventory only. Be warm and helpful.'
+  );
+  if(!answer)answer=localAISearch(q);
+  result.textContent=answer;
+  btn.disabled=false;btn.textContent='Search';
+}
+
+// ══════════════════════════════════════════
+// CHATBOT
+// ══════════════════════════════════════════
+let chatOpen=false;
+let chatHistory=[];
+
+function toggleChat(){
+  chatOpen=!chatOpen;
+  document.getElementById('chat-panel').classList.toggle('show',chatOpen);
+}
+
+function localChatReply(msg){
+  const q=msg.toLowerCase();
+  const avail=getCars().filter(c=>c.status==='available').length;
+  if(/hours|open|when/.test(q))return`We're open ${CONTACT_INFO.hoursLines.join(' and ')}. Visit us at ${CONTACT_INFO.addressLines[0]} or call ${CONTACT_INFO.phone}.`;
+  if(/financ|loan|payment|monthly/.test(q))return'Use our Financing Calculator on the Financing page to estimate monthly payments. We offer terms from 24–84 months. Apply via the Contact page!';
+  if(/test drive|book|appointment/.test(q))return'Book a test drive through our Contact page or message us on WhatsApp. We\'ll confirm within 2 hours!';
+  if(/price|cost|cheap|budget/.test(q))return localAISearch(msg);
+  if(/inventory|cars|available|stock/.test(q))return`We currently have ${avail} cars available. Browse our Inventory page or tell me what you're looking for — budget, type, fuel — and I'll recommend matches!`;
+  if(/hello|hi|hey/.test(q))return'Hello! Welcome to MotorLux. I can help you find cars, explain financing, or book a test drive. What are you looking for?';
+  return localAISearch(msg);
+}
+
+async function sendChat(){
+  const input=document.getElementById('chat-in');
+  const msg=input.value.trim();if(!msg)return;
+  input.value='';
+  addChatMsg(msg,'user');
+  chatHistory.push({role:'user',content:msg});
+  const typing=document.getElementById('chat-typing');
+  typing.classList.add('show');
+  scrollChat();
+  let reply=null;
+  try{
+    const sys=`You are MotorLux's friendly AI sales assistant. Current inventory:\n${inventorySummary()}\nHelp customers find cars, answer financing questions, book test drives, and explain our services. Be concise (2-3 sentences).`;
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:chatHistory})
+    });
+    if(res.ok){const data=await res.json();reply=data.content?.[0]?.text||null}
+  }catch(e){}
+  if(!reply)reply=localChatReply(msg);
+  chatHistory.push({role:'assistant',content:reply});
+  typing.classList.remove('show');
+  addChatMsg(reply,'bot');
+}
+
+function addChatMsg(text,type){
+  const win=document.getElementById('chat-msgs');
+  const div=document.createElement('div');
+  div.className='cmsg '+type;div.textContent=text;
+  win.insertBefore(div,document.getElementById('chat-typing'));
+  scrollChat();
+}
+function scrollChat(){const w=document.getElementById('chat-msgs');w.scrollTop=w.scrollHeight}
+
+// ══════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+async function initApp(){
+  applyContactInfo();
+  try{await loadInitialData()}
+  catch(err){showToast('Could not load backend data. Start the MotorLux server and refresh.')}
+  updateNavAuth();
+  renderFeatured();
+  calcPayment();
+}
+initApp();
+</script>
+</body>
+</html>

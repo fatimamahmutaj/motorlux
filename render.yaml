@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: motorlux-dealership
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATA_DIR
+        value: /data
+      - key: SESSION_SECRET
+        generateValue: true
+    disk:
+      name: motorlux-data
+      mountPath: /data
+      sizeGB: 1
